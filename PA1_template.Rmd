@@ -7,6 +7,7 @@ output:
 
 
 ## Loading and preprocessing the data
+```{r)
 data <- read.csv("/Users/will/test/repdata/activity.csv", header = TRUE)
 data$date <- as.Date(data$date)
 total_steps_per_day <- aggregate(steps ~ date, data, sum)
@@ -14,16 +15,18 @@ hist(total_steps_per_day$steps,
      main = "Histogram of the total number of steps taken each day", 
      xlab = "Total Steps per a day", 
      col = "lightblue")
-
+```
 
 ## What is mean total number of steps taken per day?
+```{r)
 mean_steps <- mean(total_steps_per_day$steps)
 median_steps <- median(total_steps_per_day$steps)
 cat("Mean number of steps taken each day: ", mean_steps, "\n")
 cat("Median number of steps taken each day", median_steps, "\n")
-
+```
 
 ## What is the average daily activity pattern?
+```{r)
 avg_steps_per_interval <- aggregate(steps ~ interval, data, mean)
 plot(avg_steps_per_interval$interval, avg_steps_per_interval$steps, 
      type = "l", 
@@ -32,8 +35,10 @@ plot(avg_steps_per_interval$interval, avg_steps_per_interval$steps,
      ylab = "averaged across all days")
 max_interval <- avg_steps_per_interval$interval[which.max(avg_steps_per_interval$steps)]
 cat("the maximum number of steps in 5-minute interval", max_interval, "\n")
+```
 
 ## Imputing missing values
+```{r)
 missing_values <- sum(is.na(data$steps))
 cat("The number of Missing data: ", missing_values, "\n")
 filled_data <- data
@@ -53,9 +58,10 @@ mean_steps_filled <- mean(total_steps_per_day_filled$steps)
 median_steps_filled <- median(total_steps_per_day_filled$steps)
 cat("mean: ", mean_steps_filled, "\n")
 cat("median: ", median_steps_filled, "\n")
-
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r)
 filled_data$day_type <- ifelse(weekdays(as.Date(filled_data$date)) %in% c("Saturdat", "Sunday"), "weekends", "weekdays")
 filled_data$day_type <- as.factor(filled_data$day_type)
 avg_steps_per_interval_day_type <- aggregate(steps ~ interval + day_type, filled_data, mean)
@@ -66,3 +72,4 @@ xyplot(steps ~ interval | day_type, data = avg_steps_per_interval_day_type,
        main = "the average number of steps taken per 5-minute interval across weekdays and weekends", 
        xlab = "5-minute interval", 
        ylab = "average number of steps")
+```
