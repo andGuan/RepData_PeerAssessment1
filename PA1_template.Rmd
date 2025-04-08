@@ -7,7 +7,7 @@ output:
 
 
 ## Loading and preprocessing the data
-```{r)
+```{r}
 data <- read.csv("/Users/will/test/repdata/activity.csv", header = TRUE)
 data$date <- as.Date(data$date)
 total_steps_per_day <- aggregate(steps ~ date, data, sum)
@@ -18,7 +18,7 @@ hist(total_steps_per_day$steps,
 ```
 
 ## What is mean total number of steps taken per day?
-```{r)
+```{r}
 mean_steps <- mean(total_steps_per_day$steps)
 median_steps <- median(total_steps_per_day$steps)
 cat("Mean number of steps taken each day: ", mean_steps, "\n")
@@ -26,7 +26,7 @@ cat("Median number of steps taken each day", median_steps, "\n")
 ```
 
 ## What is the average daily activity pattern?
-```{r)
+```{r}
 avg_steps_per_interval <- aggregate(steps ~ interval, data, mean)
 plot(avg_steps_per_interval$interval, avg_steps_per_interval$steps, 
      type = "l", 
@@ -38,7 +38,7 @@ cat("the maximum number of steps in 5-minute interval", max_interval, "\n")
 ```
 
 ## Imputing missing values
-```{r)
+```{r}
 missing_values <- sum(is.na(data$steps))
 cat("The number of Missing data: ", missing_values, "\n")
 filled_data <- data
@@ -61,7 +61,7 @@ cat("median: ", median_steps_filled, "\n")
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r)
+```{r}
 filled_data$day_type <- ifelse(weekdays(as.Date(filled_data$date)) %in% c("Saturdat", "Sunday"), "weekends", "weekdays")
 filled_data$day_type <- as.factor(filled_data$day_type)
 avg_steps_per_interval_day_type <- aggregate(steps ~ interval + day_type, filled_data, mean)
